@@ -1,0 +1,6 @@
+<mat-toolbar color="primary">
+  <button *ngFor="let button of buttons"
+          [ngClass]="{'selected':button.selected}"
+          mat-raised-button
+          [routerLink]="button.routerLink">{{button.name}}</button>
+</mat-toolbar>

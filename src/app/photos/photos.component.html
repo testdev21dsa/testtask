@@ -1,0 +1,6 @@
+<app-infinity-scroller [loading]="loading" (needToLoadMore)="loadMore()">
+  <mat-grid-list cols="3" rowHeight="2:1">
+    <mat-grid-tile *ngFor="let item of items">{{item}}</mat-grid-tile>
+
+  </mat-grid-list>
+</app-infinity-scroller>
