@@ -1,0 +1,14 @@
+<div class="scroller" (scroll)="onScroll($event)">
+  <ng-content></ng-content>
+  <div class="loader" *ngIf="loading">
+    <mat-progress-spinner
+      mode="indeterminate"
+      value="50"
+      color="primary">
+    </mat-progress-spinner>
+  </div>
+</div>
+
+
+
+
