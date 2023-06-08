@@ -1,6 +1,10 @@
-<app-infinity-scroller [loading]="loading" (needToLoadMore)="loadMore()">
-  <mat-grid-list cols="3" rowHeight="2:1">
-    <mat-grid-tile *ngFor="let item of items">{{item}}</mat-grid-tile>
+<app-infinity-scroller [loading]="loading" (needToLoadMore)="getItems()">
+  <mat-grid-list cols="3" gutterSize="24" class="list">
+    <mat-grid-tile *ngFor="let item of items">
+      <img class="image"
+           (click)="addToFavorites(item)"
+           [src]="item.optimizedDownloadUrl">
+    </mat-grid-tile>
 
   </mat-grid-list>
 </app-infinity-scroller>

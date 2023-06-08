@@ -1,1 +1,7 @@
-<p>favorites works!</p>
+<mat-grid-list cols="3" gutterSize="24" class="list">
+  <mat-grid-tile *ngFor="let item of items">
+    <img class="image"
+         [src]="item.optimizedDownloadUrl">
+  </mat-grid-tile>
+
+</mat-grid-list>
