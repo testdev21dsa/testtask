@@ -3,7 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
+  ElementRef, OnDestroy,
   ViewChild
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -11,7 +11,7 @@ import { LegoUiModule } from '../lego-ui/lego-ui.module';
 import { MatGridList, MatGridListModule } from '@angular/material/grid-list';
 import { RestModule } from '../rest/rest.module';
 import { RestApiService } from '../rest/rest-api.service';
-import { delay, map } from 'rxjs';
+import { delay, map, Subscription } from 'rxjs';
 import { OptimizedImageInfo } from '../rest/OptimizedImageInfo';
 import { MathHelper } from '../lego-ui/utils/MathHelper';
 import { FavoritesService } from '../favorites.service';
@@ -24,7 +24,7 @@ import { FavoritesService } from '../favorites.service';
   styleUrls: ['./photos.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PhotosComponent implements AfterViewInit {
+export class PhotosComponent implements AfterViewInit, OnDestroy {
   items: OptimizedImageInfo[] = [];
   loading = false;
   @ViewChild(MatGridList, {read: ElementRef}) gridList!: ElementRef;
@@ -32,6 +32,7 @@ export class PhotosComponent implements AfterViewInit {
 
   private imageWidth = 300;
   private page = 1;
+  private subscription!: Subscription;
 
   constructor(private cdr: ChangeDetectorRef,
               private el: ElementRef,
@@ -40,19 +41,22 @@ export class PhotosComponent implements AfterViewInit {
 
   }
 
-  addToFavorites(imageInfos: OptimizedImageInfo) {
+  addToFavorites(imageInfos: OptimizedImageInfo): void {
     this.favoritesService.addToFavorite(imageInfos);
   }
 
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.imageWidth = Math.ceil((this.gridList.nativeElement.offsetWidth - 48) / 3);
     this.getItems();
   }
 
-  getItems() {
+  getItems(): void {
     this.loading = true;
-    this.restApiService.getImageList(this.page)
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    this.subscription = this.restApiService.getImageList(this.page)
       .pipe(
         delay(MathHelper.getRandomInt(200, 300)),
         map((imageInfos) =>
@@ -63,5 +67,9 @@ export class PhotosComponent implements AfterViewInit {
         this.cdr.markForCheck();
         this.loading = false;
       });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

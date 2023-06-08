@@ -1,4 +1,6 @@
-<div class="scroller" (scroll)="onScroll($event)">
+<div class="scroller"
+     [style.height]="height"
+     (scroll)="onScroll($event)">
   <ng-content></ng-content>
   <div class="loader" *ngIf="loading">
     <mat-progress-spinner

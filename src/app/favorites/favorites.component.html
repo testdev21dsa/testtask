@@ -1,6 +1,7 @@
 <mat-grid-list cols="3" gutterSize="24" class="list">
   <mat-grid-tile *ngFor="let item of items">
     <img class="image"
+         [routerLink]="['/photos', item.id]"
          [src]="item.optimizedDownloadUrl">
   </mat-grid-tile>
 

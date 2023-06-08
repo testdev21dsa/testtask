@@ -1,18 +1,26 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  ViewChild
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FavoritesService } from '../favorites.service';
 import { OptimizedImageInfo } from '../rest/OptimizedImageInfo';
 import { MatGridList, MatGridListModule } from '@angular/material/grid-list';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-favorites',
   standalone: true,
-  imports: [CommonModule, MatGridListModule],
+  imports: [CommonModule, MatGridListModule, RouterModule],
   templateUrl: './favorites.component.html',
   styleUrls: ['./favorites.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FavoritesComponent {
+export class FavoritesComponent implements AfterViewInit {
   items: OptimizedImageInfo[] = [];
   @ViewChild(MatGridList, {read: ElementRef}) gridList!: ElementRef;
   private imageWidth = 300;
@@ -21,12 +29,12 @@ export class FavoritesComponent {
               private cdr: ChangeDetectorRef) {
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.imageWidth = Math.ceil((this.gridList.nativeElement.offsetWidth - 48) / 3);
     this.getItems();
   }
 
-  getItems() {
+  getItems(): void {
     this.items.push(...this.favoritesService.getFavoriteImageInfoList()
       .map((imageInfo) => new OptimizedImageInfo(imageInfo, this.imageWidth)));
     this.cdr.markForCheck();

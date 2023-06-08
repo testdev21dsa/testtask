@@ -1,0 +1,12 @@
+<div class="container" #container>
+  <img *ngIf="optimizedImageInfo"
+       class="container-img"
+       [src]="optimizedImageInfo.optimizedDownloadUrl">
+  <button *ngIf="showButton"
+          class="container-button"
+          (click)="removeFromFavorite()"
+          mat-raised-button
+          color="warn">Remove from favorites</button>
+</div>
+
+
