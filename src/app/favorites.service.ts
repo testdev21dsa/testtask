@@ -37,4 +37,11 @@ export class FavoritesService {
     });
 
   }
+
+  /**
+   * For test purpose only
+   */
+  clear(): void {
+    localStorage.clear();
+  }
 }

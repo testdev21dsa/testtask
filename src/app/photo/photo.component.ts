@@ -6,7 +6,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { OptimizedImageInfo } from '../rest/OptimizedImageInfo';
@@ -15,7 +15,7 @@ import { FavoritesService } from '../favorites.service';
 @Component({
   selector: 'app-photo',
   standalone: true,
-  imports: [CommonModule, MatButtonModule],
+  imports: [CommonModule, MatButtonModule, RouterModule],
   templateUrl: './photo.component.html',
   styleUrls: ['./photo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
